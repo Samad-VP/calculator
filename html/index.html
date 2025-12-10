@@ -5,38 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Calculator</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <div class="calculator-container">
-        <div class="display">
-            <div class="previous-operand" data-previous-operand></div>
-            <div class="current-operand" data-current-operand>0</div>
+        <div class="display-container">
+            <input type="text" class="current-operand" id="display" readonly value="0">
         </div>
         <div class="buttons">
             <button class="clear span-two" data-all-clear>AC</button>
             <button class="delete" data-delete>DEL</button>
             <button class="operator" data-operation>÷</button>
+
+            <button class="function" data-square>x²</button>
+            <button class="function" data-cube>x³</button>
+            <button class="function" data-sqrt>√</button>
+            <button class="operator" data-operation>*</button>
+
             <button data-number>1</button>
             <button data-number>2</button>
             <button data-number>3</button>
-            <button class="operator" data-operation>*</button>
+            <button class="operator" data-operation>-</button>
+
             <button data-number>4</button>
             <button data-number>5</button>
             <button data-number>6</button>
             <button class="operator" data-operation>+</button>
+
             <button data-number>7</button>
             <button data-number>8</button>
             <button data-number>9</button>
-            <button class="operator" data-operation>-</button>
+            <button class="equals" data-equals>=</button>
+
+            <button data-number class="span-two">0</button>
             <button data-number>.</button>
-            <button data-number>0</button>
-            <button class="equals span-two" data-equals>=</button>
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>

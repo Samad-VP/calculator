@@ -1,6 +1,5 @@
 class Calculator {
-    constructor(previousOperandTextElement, currentOperandTextElement) {
-        this.previousOperandTextElement = previousOperandTextElement;
+    constructor(currentOperandTextElement) {
         this.currentOperandTextElement = currentOperandTextElement;
         this.clear();
     }
@@ -9,15 +8,21 @@ class Calculator {
         this.currentOperand = '0';
         this.previousOperand = '';
         this.operation = undefined;
+        this.shouldResetScreen = false;
     }
 
     delete() {
+        if (this.shouldResetScreen) return;
         if (this.currentOperand === '0') return;
         this.currentOperand = this.currentOperand.toString().slice(0, -1);
         if (this.currentOperand === '') this.currentOperand = '0';
     }
 
     appendNumber(number) {
+        if (this.shouldResetScreen) {
+            this.currentOperand = '';
+            this.shouldResetScreen = false;
+        }
         if (number === '.' && this.currentOperand.includes('.')) return;
         if (this.currentOperand === '0' && number !== '.') {
             this.currentOperand = number.toString();
@@ -33,7 +38,38 @@ class Calculator {
         }
         this.operation = operation;
         this.previousOperand = this.currentOperand;
-        this.currentOperand = '';
+        this.shouldResetScreen = true;
+    }
+
+    calculateSquare() {
+        const current = parseFloat(this.currentOperand);
+        if (isNaN(current)) return;
+        this.currentOperand = (current * current).toString();
+        this.shouldResetScreen = true;
+        this.previousOperand = '';
+        this.operation = undefined;
+    }
+
+    calculateCube() {
+        const current = parseFloat(this.currentOperand);
+        if (isNaN(current)) return;
+        this.currentOperand = (current * current * current).toString();
+        this.shouldResetScreen = true;
+        this.previousOperand = '';
+        this.operation = undefined;
+    }
+
+    calculateSqrt() {
+        const current = parseFloat(this.currentOperand);
+        if (isNaN(current)) return;
+        if (current < 0) {
+            alert("Invalid Input");
+            return;
+        }
+        this.currentOperand = Math.sqrt(current).toString();
+        this.shouldResetScreen = true;
+        this.previousOperand = '';
+        this.operation = undefined;
     }
 
     compute() {
@@ -64,34 +100,11 @@ class Calculator {
         this.currentOperand = computation;
         this.operation = undefined;
         this.previousOperand = '';
-    }
-
-    getDisplayNumber(number) {
-        const stringNumber = number.toString();
-        const integerDigits = parseFloat(stringNumber.split('.')[0]);
-        const decimalDigits = stringNumber.split('.')[1];
-        let integerDisplay;
-        if (isNaN(integerDigits)) {
-            integerDisplay = '';
-        } else {
-            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
-        }
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`;
-        } else {
-            return integerDisplay;
-        }
+        this.shouldResetScreen = true;
     }
 
     updateDisplay() {
-        this.currentOperandTextElement.innerText =
-            this.getDisplayNumber(this.currentOperand);
-        if (this.operation != null) {
-            this.previousOperandTextElement.innerText =
-                `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`;
-        } else {
-            this.previousOperandTextElement.innerText = '';
-        }
+        this.currentOperandTextElement.value = this.currentOperand;
     }
 }
 
@@ -100,10 +113,12 @@ const operationButtons = document.querySelectorAll('[data-operation]');
 const equalsButton = document.querySelector('[data-equals]');
 const deleteButton = document.querySelector('[data-delete]');
 const allClearButton = document.querySelector('[data-all-clear]');
-const previousOperandTextElement = document.querySelector('[data-previous-operand]');
+const squareButton = document.querySelector('[data-square]');
+const cubeButton = document.querySelector('[data-cube]');
+const sqrtButton = document.querySelector('[data-sqrt]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
 
-const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
+const calculator = new Calculator(currentOperandTextElement);
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -118,6 +133,27 @@ operationButtons.forEach(button => {
         calculator.updateDisplay();
     });
 });
+
+if (squareButton) {
+    squareButton.addEventListener('click', () => {
+        calculator.calculateSquare();
+        calculator.updateDisplay();
+    });
+}
+
+if (cubeButton) {
+    cubeButton.addEventListener('click', () => {
+        calculator.calculateCube();
+        calculator.updateDisplay();
+    });
+}
+
+if (sqrtButton) {
+    sqrtButton.addEventListener('click', () => {
+        calculator.calculateSqrt();
+        calculator.updateDisplay();
+    });
+}
 
 equalsButton.addEventListener('click', () => {
     calculator.compute();
