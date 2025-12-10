@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a40, #1e1e2f);
+    overflow: hidden;
+}
+
+/* Background decoration circles */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(80px);
+}
+
+body::before {
+    background: #ff007f;
+    top: -50px;
+    left: -50px;
+}
+
+body::after {
+    background: #00d4ff;
+    bottom: -50px;
+    right: -50px;
+}
+
+.calculator-container {
+    position: relative;
+    width: 350px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.display {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 20px;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #fff;
+}
+
+.previous-operand {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 5px;
+    min-height: 24px;
+}
+
+.current-operand {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+button {
+    height: 60px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.span-two {
+    grid-column: span 2;
+}
+
+.operator {
+    color: #00d4ff;
+    font-weight: 500;
+}
+
+.delete, .clear {
+    color: #ff007f;
+    font-weight: 500;
+}
+
+.equals {
+    background: linear-gradient(135deg, #00d4ff, #005bea);
+    color: #fff;
+    font-weight: 600;
+}
+
+.equals:hover {
+    background: linear-gradient(135deg, #00c3eb, #004ec2);
+}
